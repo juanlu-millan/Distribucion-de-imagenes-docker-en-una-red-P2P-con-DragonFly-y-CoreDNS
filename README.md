@@ -1,1 +1,1 @@
-# Distribucion-de-imagenes-docker-en-una-red-P2P-con-DragonFly-y-CoreDNS
+# Distribucion de imagenes docker en una red P2P con CoreDNS y DragonFly
