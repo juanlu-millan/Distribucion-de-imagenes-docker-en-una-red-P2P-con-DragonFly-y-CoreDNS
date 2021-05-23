@@ -1,11 +1,11 @@
 ![image](https://user-images.githubusercontent.com/43776895/119236256-acffb780-bb36-11eb-86d7-fc8bc335fdc4.png)
 
-- Introducción
-- Instalación
-- Comprobación
-- Errores durante la prueba
+- [Introducción](#introducción)
+- [Instalación](#instalación)
+- [Comprobación](#comprobación)
+- [Errores durante la prueba](#errores-durante-la-prueba)
 
-# Introduccion
+## Introducción
 
 Dragonfly es un sistema inteligente de distribución de archivos e imágenes basado en P2P de código abierto. Su objetivo es abordar todos los problemas de distribución en escenarios nativos de la nube. 
 
