@@ -3,7 +3,6 @@
 - [Introducción](#introducción)
 - [Instalación](#instalación)
 - [Comprobación](#comprobación)
-- [Errores durante la prueba](#errores-durante-la-prueba)
 
 ## Introducción
 
@@ -114,10 +113,3 @@ docker exec dfclient grep 'downloading piece' /root/.small-dragonfly/logs/dfclie
 </pre>
 
 If the above command does not output the result, the mirror does not complete the transmission through other peer nodes. Otherwise, the transmission is completed through other peer nodes.
-
-## Errores durante la prueba
-
-<pre>
-sudo systemctl stop systemd-resolved
-sudo systemctl disable systemd-resolved
-</pre>
