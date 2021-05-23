@@ -1,11 +1,11 @@
 ![image](https://user-images.githubusercontent.com/43776895/119236256-acffb780-bb36-11eb-86d7-fc8bc335fdc4.png)
 
-- Introducción [enlace en línea](https://github.com/juanlu-millan/Distribucion-de-imagenes-docker-en-una-red-P2P-con-DragonFly-y-CoreDNS/Drangofly.md#Introducción)
+- Introducción
 - Instalación
 - Comprobación
 - Errores durante la prueba
 
-# Introducción
+# Introduccion
 
 Dragonfly es un sistema inteligente de distribución de archivos e imágenes basado en P2P de código abierto. Su objetivo es abordar todos los problemas de distribución en escenarios nativos de la nube. 
 
