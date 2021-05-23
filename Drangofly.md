@@ -1,5 +1,12 @@
 ![image](https://user-images.githubusercontent.com/43776895/119236256-acffb780-bb36-11eb-86d7-fc8bc335fdc4.png)
 
+- Introducción [enlace en línea](https://github.com/juanlu-millan/Distribucion-de-imagenes-docker-en-una-red-P2P-con-DragonFly-y-CoreDNS/Drangofly.md#Introducción)
+- Instalación
+- Comprobación
+- Errores durante la prueba
+
+# Introducción
+
 Dragonfly es un sistema inteligente de distribución de archivos e imágenes basado en P2P de código abierto. Su objetivo es abordar todos los problemas de distribución en escenarios nativos de la nube. 
 
 Las caracteristicas principales de Dragonfly :
@@ -12,6 +19,8 @@ Dragonfly ahora está alojado en Cloud Native Computing Foundation (CNCF) como u
 
 Dragonfly ha terminado de refactorizarse en Golang. Ahora las versiones> 0.4.0 están totalmente en Golang, mientras que las <0.4.0 están en Java. Recomendamos a los usuarios que prueben la versión de Golang primero, ya que las versiones de Java dejarán de ser compatibles en las próximas versiones.
 
+
+# Instalación
 
 Step 1: Deploy Dragonfly Server (SuperNode)
 Deploy the Dragonfly server (Supernode) on the machine dfsupernode.
@@ -75,6 +84,9 @@ systemctl restart docker
 
 En caso del error 
 
+
+# Comprobación
+
 Step 4: Pull images with Dragonfly
 Through the above steps, we can start to validate if Dragonfly works as expected.
 
@@ -84,7 +96,7 @@ And you can pull the image as usual on either dfclient0 or dfclient1, for exampl
 docker pull nginx:latest
 </pre>
 
-Step 5: Validate Dragonfly
+Step 5: Validación de Dragonfly
 You can execute the following command to check if the nginx image is distributed via Dragonfly.
 
 docker exec dfclient grep 'downloading piece' /root/.small-dragonfly/logs/dfclient.log
@@ -102,3 +114,10 @@ docker exec dfclient grep 'downloading piece' /root/.small-dragonfly/logs/dfclie
 </pre>
 
 If the above command does not output the result, the mirror does not complete the transmission through other peer nodes. Otherwise, the transmission is completed through other peer nodes.
+
+## Errores durante la prueba
+
+<pre>
+sudo systemctl stop systemd-resolved
+sudo systemctl disable systemd-resolved
+</pre>
