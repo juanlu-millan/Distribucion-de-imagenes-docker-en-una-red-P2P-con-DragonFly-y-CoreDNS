@@ -1,10 +1,13 @@
 # Distribución de imágenes docker en una red P2P con CoreDNS y DragonFly
 
-![Texto alternativo](./proyecto.png)
+## Indice
 
 - [Introducción](#introducción)
 - [Herramientas](#herramientas)
 - [Bibliografía](#bibliografía)
+
+
+![Texto alternativo](./proyecto.png)
 
 
 ### Introducción 
