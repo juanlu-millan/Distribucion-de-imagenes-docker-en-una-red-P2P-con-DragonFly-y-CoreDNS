@@ -33,6 +33,10 @@ de DNS, por lo que puede concentrarse en escribir la funcionalidad del complemen
 En caso de encontrarte este error al desplegar CoreDNS en Docker:
 
 <pre>
+Error response from daemon: Cannot restart container cd815fad7222: driver failed programming external connectivity on endpoint coredns (59709c3d04d76b52a454876568cc9c081f9ed6083492716715668f6898736a9a): Error starting userland proxy: listen udp4 0.0.0.0:53: bind: address already in use
+</pre>
+
+<pre>
 sudo systemctl stop systemd-resolved
 sudo systemctl disable systemd-resolved
 </pre>
