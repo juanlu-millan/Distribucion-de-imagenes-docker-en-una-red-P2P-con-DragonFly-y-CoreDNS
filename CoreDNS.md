@@ -27,6 +27,9 @@ de DNS, por lo que puede concentrarse en escribir la funcionalidad del complemen
 
 ## Funcionamiento en Docker
 
+<pre>
+docker run -d --name coredns --restart=always --volume=/home/vagrant/containers/coredns/:/root/ -p 53:53/udp coredns/coredns -conf /root/Corefile
+</pre>
 
 #### Problemas a tener en cuenta para su funcionamiento en Docker
 
@@ -36,7 +39,17 @@ En caso de encontrarte este error al desplegar CoreDNS en Docker:
 Error response from daemon: Cannot restart container cd815fad7222: driver failed programming external connectivity on endpoint coredns (59709c3d04d76b52a454876568cc9c081f9ed6083492716715668f6898736a9a): Error starting userland proxy: listen udp4 0.0.0.0:53: bind: address already in use
 </pre>
 
+- Se debera cambiar en /etc/systemd/resolved.conf la linea de DNSStubListener y cambiarla a *No*
+
 <pre>
-sudo systemctl stop systemd-resolved
-sudo systemctl disable systemd-resolved
+DNSStubListener=no
+</pre>
+
+- Comprobamos que funciona
+
+<pre>
+docker ps -a
+CONTAINER ID   IMAGE                          COMMAND                  CREATED       STATUS         PORTS                                                           NAMES
+cd815fad7222   coredns/coredns                "/coredns -conf /roo…"   6 days ago    Up 5 seconds   53/tcp, 0.0.0.0:53->53/udp, :::53->53/udp                       coredns
+fa29c7a05185   dragonflyoss/supernode:1.0.2   "/root/start.sh --do…"   13 days ago   Up 2 days      0.0.0.0:8001-8002->8001-8002/tcp, :::8001-8002->8001-8002/tcp   supernode
 </pre>
