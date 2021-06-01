@@ -1,6 +1,8 @@
 ![image](https://user-images.githubusercontent.com/43776895/119236256-acffb780-bb36-11eb-86d7-fc8bc335fdc4.png)
 
+# Índice
 - [Introducción](#introducción)
+- [Prerequisitos](#prerequisitos)
 - [Instalación](#instalación)
 - [Comprobación](#comprobación)
 
@@ -18,8 +20,11 @@ Dragonfly ahora está alojado en Cloud Native Computing Foundation (CNCF) como u
 
 Dragonfly ha terminado de refactorizarse en Golang. Ahora las versiones> 0.4.0 están totalmente en Golang, mientras que las <0.4.0 están en Java. Recomendamos a los usuarios que prueben la versión de Golang primero, ya que las versiones de Java dejarán de ser compatibles en las próximas versiones.
 
+## Prerequisitos
 
-# Instalación
+![Ejemplo](https://github.com/juanlu-millan/Distribucion-de-imagenes-docker-en-una-red-P2P-con-DragonFly-y-CoreDNS/blob/main/imagenes/ejemplo.png)
+
+## Instalación
 
 Step 1: Deploy Dragonfly Server (SuperNode)
 Deploy the Dragonfly server (Supernode) on the machine dfsupernode.
