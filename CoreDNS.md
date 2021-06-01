@@ -1,6 +1,11 @@
 ![CoreDNS](https://cncf-branding.netlify.app/img/projects/coredns/horizontal/color/coredns-horizontal-color.png)
 
+# Índice
+
 - [Introducción](#introduccion)
+- [Funcionamiento en Docker](#funcionamiento-en-docker)
+- [Ficheros de configuración](#ficheros-de-configuración)
+
 
 ## Introducción
 
