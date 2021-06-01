@@ -22,7 +22,15 @@ Dragonfly ha terminado de refactorizarse en Golang. Ahora las versiones> 0.4.0 e
 
 ## Prerequisitos
 
+Suponiendo que el experimento de inicio rápido requiere que preparemos tres máquinas host, una para desempeñar un papel de supernodo y las otras dos para dfclient. Entonces, la topología del clúster de tres nodos es como la siguiente:
+
 ![Ejemplo](https://github.com/juanlu-millan/Distribucion-de-imagenes-docker-en-una-red-P2P-con-DragonFly-y-CoreDNS/blob/main/imagenes/ejemplo.png)
+
+Entonces, debemos asegurarnos de los siguientes requisitos:
+
+- 3 nodos de host en una LAN
+- Cada nodo ha implementado el demonio de la ventana acoplable
+
 
 ## Instalación
 
