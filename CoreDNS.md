@@ -31,6 +31,47 @@ de DNS, por lo que puede concentrarse en escribir la funcionalidad del complemen
 docker run -d --name coredns --restart=always --volume=/home/vagrant/containers/coredns/:/root/ -p 53:53/udp coredns/coredns -conf /root/Corefile
 </pre>
 
+
+## Ficheros de configuración
+
+- Los principales ficheros de configuración son Corefile donde se definen las zonas de CoreDNS:
+
+##### Corefile
+
+<pre>
+.:53 {
+    forward . 8.8.8.8 9.9.9.9
+    log
+    errors
+    reload 10s
+}
+
+example.com:53 {
+    file /root/example.db
+    log
+    errors
+    erratic {
+        delay 3 50ms
+    }
+    health :8080
+    whoami
+}
+</pre>
+
+##### Example.db
+
+<pre>
+example.com.        IN  SOA dns.example.com. juanlu.example.com. 2015082542 7200 3600 1209600 >
+gateway.example.com.    IN  A   192.168.121.1
+dns.example.com.    IN  A   192.168.121.139
+host1.example.com.   IN  A   192.168.121.245
+host2.example.com.   IN  A   192.168.121.165
+host3.example.com.   IN  A   192.168.121.57
+jmillan.example.com.  IN  A   192.168.121.100
+server.example.com. IN  CNAME   dns
+</pre>
+
+
 #### Problemas a tener en cuenta para su funcionamiento en Docker
 
 En caso de encontrarte este error al desplegar CoreDNS en Docker:
