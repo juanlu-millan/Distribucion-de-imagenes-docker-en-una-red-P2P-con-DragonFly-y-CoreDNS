@@ -2,7 +2,7 @@
 
 # Índice
 
-- [Introducción](#introduccion)
+- [Introducción](#introducción)
 - [Funcionamiento en Docker](#funcionamiento-en-docker)
 - [Ficheros de configuración](#ficheros-de-configuración)
 
