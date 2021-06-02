@@ -32,6 +32,15 @@ de DNS, por lo que puede concentrarse en escribir la funcionalidad del complemen
 
 ## Funcionamiento en Docker
 
+Primero, extraemos la imagen del contenedor localmente desde Docker Hub:
+
+<pre>
+docker pull coredns/coredns
+</pre>
+
+Para ejecutar el contenedor CoreDNS busca en el directorio inmediato en el que se encuentra cualquier archivo con nombre Corefile y lo usa como configuración. Desafortunadamente, en la coredns/corednsimagen que extrajimos de Docker Hub, se encuentra en el directorio raíz de /, que no se puede montar como un volumen. Tendremos que pasar manualmente nuestro Corefile y asegurarnos de que la directiva en nuestra zona de example.com:53 sea una ruta directa en el contenedor al archivo de base de datos de la zona DNS. Para hacer esto, los asigné al /rootcontenedor y pasé la -conf opción que permite al usuario especificar la ruta a un Corefile; este es el comando que utilicé para iniciar mi contenedor CoreDNS:
+
+
 <pre>
 docker run -d --name coredns --restart=always --volume=/home/vagrant/containers/coredns/:/root/ -p 53:53/udp coredns/coredns -conf /root/Corefile
 </pre>
