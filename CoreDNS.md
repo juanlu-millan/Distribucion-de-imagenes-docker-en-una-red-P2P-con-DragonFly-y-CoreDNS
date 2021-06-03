@@ -5,7 +5,7 @@
 - [Introducción](#introducción)
 - [Funcionamiento en Docker](#funcionamiento-en-docker)
 - [Ficheros de configuración](#ficheros-de-configuración)
-
+- [Problemas a tener en cuenta para su funcionamiento en Docker](#problemas-a-tener-en-cuenta-para-su-funcionamiento-en-Docker)
 
 ## Introducción
 
