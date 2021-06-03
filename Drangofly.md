@@ -4,7 +4,7 @@
 - [Introducción](#introducción)
 - [Prerequisitos](#prerequisitos)
 - [Instalación](#instalación)
-- [Comprobación](#comprobación)
+- [Verificación](#verificación)
 
 ## Introducción
 
@@ -33,96 +33,52 @@ Entonces, debemos asegurarnos de los siguientes requisitos:
 
 
 ## Instalación
+Paso 1: Implementar Supernodo (servidor Dragonfly)
+Por encima de los tres nodos que preparamos, elegimos uno para implementar el supernodo.
 
-Step 1: Deploy Dragonfly Server (SuperNode)
-Deploy the Dragonfly server (Supernode) on the machine dfsupernode.
+Extraiga la imagen de la ventana acoplable que le proporcionamos.
+docker pull dragonflyoss/supernode:0.3.1
+Inicie un supernodo.
+docker run -d -p 8001:8001 -p 8002:8002 dragonflyoss/supernode:0.3.1 -Dsupernode.advertiseIp=127.0.0.1
+NOTA : supernode.advertiseIpdebe ser la ip a la que los clientes pueden conectarse, 127.0.0.1aquí hay un ejemplo para probar.
 
-<pre>
-docker run -d --name supernode \
-  --restart=always \
-  -p 8001:8001 \
-  -p 8002:8002 \
-  -v /home/admin/supernode:/home/admin/supernode \
-  dragonflyoss/supernode:1.0.2 --download-port=8001
-</pre>
-  
-Step 2: Deploy Dragonfly Client (dfclient)
-The following operations should be performed both on the client machine dfclient0, dfclient1.
+Paso 2. Configurar el demonio de Docker
+Después de implementar Supernode en un nodo con éxito, deberíamos implementar dfclient (Dragonfly Client) en cada uno de los dos nodos restantes. Sin embargo, antes de implementar dfclient, debemos configurar Docker Daemon en ambos dos nodos para agregar el parámetro registry-mirrors.
 
-Prepare the configuration file
-Dragonfly's configuration file is located in the /etc/dragonfly directory by default. When using the container to deploy the client, you need to mount the configuration file to the container.
+Modifique el archivo de configuración /etc/docker/daemon.json.
+vi /etc/docker/daemon.json
+Sugerencia: Para obtener más información sobre /etc/docker/daemon.json, consulte la documentación de Docker .
 
-Configure the Dragonfly Supernode address for the client:
-
-<pre>
-cat <<EOD > /etc/dragonfly/dfget.yml
-nodes:
-    - dfsupernode
-EOD
-</pre>
-
-Start Dragonfly Client
-
-<pre>
-docker run -d --name dfclient \
-    --restart=always \
-    -p 65001:65001 \
-    -v /etc/dragonfly:/etc/dragonfly \
-    -v $HOME/.small-dragonfly:/root/.small-dragonfly \
-    dragonflyoss/dfclient:1.0.2 --registry https://index.docker.io
-</pre>
-
-NOTE: The --registry parameter specifies the mirrored image registry address, and https://index.docker.io is the address of official image registry, you can also set it to the others.
-
-
-
-Step 3. Configure Docker Daemon
-We need to modify the Docker Daemon configuration to use the Dragonfly as a pull through registry both on the client machine dfclient0, dfclient1.
-
-Add or update the configuration item registry-mirrors in the configuration file/etc/docker/daemon.json.
-
-<pre>
-{
-  "registry-mirrors": ["http://127.0.0.1:65001"]
-}
-</pre>
-
-Tip: For more information on /etc/docker/daemon.json, see Docker documentation.
-
-<pre>
-Restart Docker Daemon.
+Agregue o actualice el elemento de configuración registry-mirrorsen el archivo de configuración.
+"registry-mirrors": ["http://127.0.0.1:65001"]
+Reinicie Docker Daemon。
 systemctl restart docker
-</pre>
+Paso 3: Implementar dfclient (cliente Dragonfly)
+Después de configurar el demonio docker de ambos nodos, podemos comenzar a implementar dfclient en ellos.
 
-En caso del error 
+Extraiga dfclient en cada uno de los dos nodos:
+docker pull dragonflyoss/dfclient:0.3.1
+ejecute el comando en el primero de los dos nodos para iniciar dfclient
+docker run -d --name dfclient01 -p 65001:65001 dragonflyoss/dfclient:0.3.1 --registry https://index.docker.io
+ejecute el comando en el segundo de los dos nodos para iniciar dfclient
+docker run -d --name dfclient02 -p 65001:65001 dragonflyoss/dfclient:0.3.1 --registry https://index.docker.io
+Paso 4: validar Dragonfly
+Después de implementar un supernodo y dos dfclients, podemos comenzar a validar si Dragonfly funciona como se esperaba. Puede ejecutar el siguiente comando en los dos nodos dfclient al mismo tiempo para extraer la misma imagen.
 
-
-# Comprobación
-
-Step 4: Pull images with Dragonfly
-Through the above steps, we can start to validate if Dragonfly works as expected.
-
-And you can pull the image as usual on either dfclient0 or dfclient1, for example:
-
-<pre>
 docker pull nginx:latest
-</pre>
+Puede elegir un nodo dfclient para ejecutar el siguiente comando y verificar si la imagen nginx se distribuye a través de Dragonfly.
 
-Step 5: Validación de Dragonfly
-You can execute the following command to check if the nginx image is distributed via Dragonfly.
+docker exec dfclient01 grep 'downloading piece' /root/.small-dragonfly/logs/dfclient.log
+Si la salida del comando anterior tiene contenido como
 
-docker exec dfclient grep 'downloading piece' /root/.small-dragonfly/logs/dfclient.log
-If the output of command above has content like
-
-<pre>
 2019-03-29 15:49:53.913 INFO sign:96027-1553845785.119 : downloading piece:{"taskID":"00a0503ea12457638ebbef5d0bfae51f9e8e0a0a349312c211f26f53beb93cdc","superNode":"127.0.0.1","dstCid":"127.0.0.1-95953-1553845720.488","range":"67108864-71303167","result":503,"status":701,"pieceSize":4194304,"pieceNum":16}
-that means that the image download is done by Dragonfly.
-</pre>
+entonces se demuestra que Dragonfly funciona con éxito.
 
-If you need to ensure that if the image is transferred through other peer nodes, you can execute the following command:
+Si necesita verificar si la imagen se distribuye no solo desde el supernodo, sino también desde otro nodo par (dfclient), puede ejecutar el siguiente comando:
 
-<pre>
-docker exec dfclient grep 'downloading piece' /root/.small-dragonfly/logs/dfclient.log | grep -v cdnnode
-</pre>
+docker exec dfclient01 grep 'downloading piece' /root/.small-dragonfly/logs/dfclient.log | grep -v cdnnode
+Si no se muestra ningún resultado, significa que la distribución de imágenes no se ha realizado entre dfclient. De lo contrario, funciona.
 
-If the above command does not output the result, the mirror does not complete the transmission through other peer nodes. Otherwise, the transmission is completed through other peer nodes.
+
+# Verificación
+
