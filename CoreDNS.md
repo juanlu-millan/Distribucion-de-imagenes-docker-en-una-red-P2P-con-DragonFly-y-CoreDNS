@@ -49,7 +49,7 @@ docker run -d --name coredns --restart=always --volume=/home/vagrant/containers/
 
 ## Ficheros de configuración
 
-- Los principales ficheros de configuración son Corefile donde se definen las zonas de CoreDNS:
+- Los principales ficheros de configuración son Corefile donde se definen las zonas de CoreDNS y Example.db:
 
 ##### Corefile
 
@@ -73,21 +73,39 @@ example.com:53 {
 }
 </pre>
 
+
 ##### Example.db
 
 <pre>
-example.com.        IN  SOA dns.example.com. juanlu.example.com. 2015082542 7200 3600 1209600 >
+example.com.        IN  SOA dns.example.com. juanlu.example.com. 2021052512 7200 3600 1209600 >
 gateway.example.com.    IN  A   192.168.121.1
 dns.example.com.    IN  A   192.168.121.139
 host1.example.com.   IN  A   192.168.121.245
 host2.example.com.   IN  A   192.168.121.165
 host3.example.com.   IN  A   192.168.121.57
 jmillan.example.com.  IN  A   192.168.121.100
-server.example.com. IN  CNAME   dns
+server.example.com. IN  CNAME dns
 </pre>
 
+**example.com.** se refiere a la zona de la que es responsable este servidor DNS.
+SOAse refiere al tipo de registro; en este caso, un "inicio de autoridad"
 
-#### Problemas a tener en cuenta para su funcionamiento en Docker
+**dns.example.com.** se refiere al nombre de este servidor DNS
+
+**juanlu.example.com.** se refiere al correo electrónico del administrador de este servidor DNS. Tenga en cuenta que el @signo simplemente se anota con un punto; esto no es un error, sino cómo está formateado.
+
+**2021052512** se refiere al número de serie. Puede ser el que desee, siempre que sea un número de serie que no se reutilice en esta configuración o que tenga caracteres no válidos.
+
+**7200** se refiere a la frecuencia de actualización en segundos; después de este período de tiempo, el cliente debe volver a recuperar una SOA.
+
+**3600** es la tasa de reintentos en segundos; después de esto, se debe reintentar cualquier actualización que haya fallado.
+
+**1209600** se refiere a la cantidad de tiempo en segundos que pasa antes de que un cliente ya no considere esta zona como "autorizada". La información de esta SOA caduca después de este tiempo.
+
+**3600** se refiere al tiempo de vida en segundos, que es el valor predeterminado para todos los registros de la zona.
+
+
+### Problemas a tener en cuenta para su funcionamiento en Docker
 
 En caso de encontrarte este error al desplegar CoreDNS en Docker:
 
