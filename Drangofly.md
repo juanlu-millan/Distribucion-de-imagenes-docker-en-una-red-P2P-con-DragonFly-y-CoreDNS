@@ -62,6 +62,12 @@ ejecute el comando en el primero de los dos nodos para iniciar dfclient
 docker run -d --name dfclient01 -p 65001:65001 dragonflyoss/dfclient:0.3.1 --registry https://index.docker.io
 ejecute el comando en el segundo de los dos nodos para iniciar dfclient
 docker run -d --name dfclient02 -p 65001:65001 dragonflyoss/dfclient:0.3.1 --registry https://index.docker.io
+
+
+
+## Verificación
+
+
 Paso 4: validar Dragonfly
 Después de implementar un supernodo y dos dfclients, podemos comenzar a validar si Dragonfly funciona como se esperaba. Puede ejecutar el siguiente comando en los dos nodos dfclient al mismo tiempo para extraer la misma imagen.
 
@@ -80,5 +86,4 @@ docker exec dfclient01 grep 'downloading piece' /root/.small-dragonfly/logs/dfcl
 Si no se muestra ningún resultado, significa que la distribución de imágenes no se ha realizado entre dfclient. De lo contrario, funciona.
 
 
-# Verificación
 
