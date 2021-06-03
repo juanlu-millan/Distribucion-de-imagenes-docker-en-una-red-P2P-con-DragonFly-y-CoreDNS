@@ -73,6 +73,11 @@ example.com:53 {
 }
 </pre>
 
+Repasemos las opciones del Corefileuno por uno. Es importante tener en cuenta que cada sección entre corchetes denota una "zona" de DNS, que establece el comportamiento de CoreDNS en función de lo que se está resolviendo.
+
+Primero, observe la sección inicial entre corchetes. Comienza con a .:53, lo que indica que esta zona es global (con "." Indica todo el tráfico), y está escuchando en el puerto 53 (udp por defecto). Los parámetros que establezcamos aquí se aplicarán a todas las consultas DNS entrantes que no especifiquen una zona específica, como una consulta para resolver github.com. Vemos en la siguiente línea, que reenviamos tales solicitudes a un servidor DNS secundario para su resolución; en este caso, todas las solicitudes a esta zona simplemente se reenviarán a los servidores DNS de Google en 8.8.8.8y 9.9.9.9.
+
+En segundo lugar, tenemos otra zona que está especificada para que example.comtambién escuche en el puerto UDP 53. Cualquier consulta para los hosts que pertenecen a esta zona se referirá a una base de datos de archivos (similar a cómo lo hace el enlace) para realizar una búsqueda allí; más sobre eso momentáneamente. Por ejemplo, una consulta a "server.example.com" omitirá la zona global de "." y caiga en la zona que está dando servicio a "example.com", y utilizando la filedirectiva se hará referencia al archivo de la base de datos para encontrar el registro adecuado.
 
 ##### Example.db
 
@@ -87,27 +92,29 @@ jmillan.example.com.  IN  A   192.168.121.100
 server.example.com. IN  CNAME dns
 </pre>
 
-**example.com.** se refiere a la zona de la que es responsable este servidor DNS.
+Glosario de Example.db: 
+
+- **example.com.** se refiere a la zona de la que es responsable este servidor DNS.
 SOAse refiere al tipo de registro; en este caso, un "inicio de autoridad"
 
-**dns.example.com.** se refiere al nombre de este servidor DNS
+- **dns.example.com.** se refiere al nombre de este servidor DNS
 
-**juanlu.example.com.** se refiere al correo electrónico del administrador de este servidor DNS. Tenga en cuenta que el @signo simplemente se anota con un punto; esto no es un error, sino cómo está formateado.
+- **juanlu.example.com.** se refiere al correo electrónico del administrador de este servidor DNS. Tenga en cuenta que el @signo simplemente se anota con un punto; esto no es un error, sino cómo está formateado.
 
-**2021052512** se refiere al número de serie. Puede ser el que desee, siempre que sea un número de serie que no se reutilice en esta configuración o que tenga caracteres no válidos.
+- **2021052512** se refiere al número de serie. Puede ser el que desee, siempre que sea un número de serie que no se reutilice en esta configuración o que tenga caracteres no válidos.
 
-**7200** se refiere a la frecuencia de actualización en segundos; después de este período de tiempo, el cliente debe volver a recuperar una SOA.
+- **7200** se refiere a la frecuencia de actualización en segundos; después de este período de tiempo, el cliente debe volver a recuperar una SOA.
 
-**3600** es la tasa de reintentos en segundos; después de esto, se debe reintentar cualquier actualización que haya fallado.
+- **3600** es la tasa de reintentos en segundos; después de esto, se debe reintentar cualquier actualización que haya fallado.
 
-**1209600** se refiere a la cantidad de tiempo en segundos que pasa antes de que un cliente ya no considere esta zona como "autorizada". La información de esta SOA caduca después de este tiempo.
+- **1209600** se refiere a la cantidad de tiempo en segundos que pasa antes de que un cliente ya no considere esta zona como "autorizada". La información de esta SOA caduca después de este tiempo.
 
-**3600** se refiere al tiempo de vida en segundos, que es el valor predeterminado para todos los registros de la zona.
+- **3600** se refiere al tiempo de vida en segundos, que es el valor predeterminado para todos los registros de la zona.
 
 
 ### Problemas a tener en cuenta para su funcionamiento en Docker
 
-En caso de encontrarte este error al desplegar CoreDNS en Docker:
+- En caso de encontrarte este error al desplegar CoreDNS en Docker:
 
 <pre>
 Error response from daemon: Cannot restart container cd815fad7222: driver failed programming external connectivity on endpoint coredns (59709c3d04d76b52a454876568cc9c081f9ed6083492716715668f6898736a9a): Error starting userland proxy: listen udp4 0.0.0.0:53: bind: address already in use
