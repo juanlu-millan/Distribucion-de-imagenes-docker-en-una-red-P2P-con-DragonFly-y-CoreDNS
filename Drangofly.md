@@ -115,7 +115,16 @@ Si la salida del comando anterior tiene contenido como
 
 
 <pre>
-2019-03-29 15:49:53.913 INFO sign:96027-1553845785.119 : downloading piece:{"taskID":"00a0503ea12457638ebbef5d0bfae51f9e8e0a0a349312c211f26f53beb93cdc","superNode":"127.0.0.1","dstCid":"127.0.0.1-95953-1553845720.488","range":"67108864-71303167","result":503,"status":701,"pieceSize":4194304,"pieceNum":16}
+2021-06-05 20:18:51.288 INFO sign:140-1622924331.218 : downloading piece:{"taskID":"05f945e758a52439048ab935efd0dfa49ca6963eaf5adb41883074aa5b435385","superNode":"server.example.com:8002","dstCid":"","range":"","result":502,"status":700,"pieceSize":0,"pieceNum":0}
+2021-06-05 20:18:51.850 INFO sign:139-1622924331.215 : downloading piece:{"taskID":"40b4a6ba49a045c9082ea4d376ce85bdd9b89004a780fa129a85ba756842daee","superNode":"server.example.com:8002","dstCid":"","range":"","result":502,"status":700,"pieceSize":0,"pieceNum":0}
+2021-06-05 20:18:51.866 INFO sign:138-1622924331.219 : downloading piece:{"taskID":"2d9d46e6f276f863ac1bd9657fb3838dc1e5d2c16d998b69fca7a3c6f7abd8f2","superNode":"server.example.com:8002","dstCid":"","range":"","result":502,"status":700,"pieceSize":0,"pieceNum":0}
+2021-06-05 20:18:52.093 INFO sign:137-1622924331.216 : downloading piece:{"taskID":"9447f0fbd61cef2a75ee2f689fecab6f74d7c1348c747cce84b0171ff0555719","superNode":"server.example.com:8002","dstCid":"","range":"","result":502,"status":700,"pieceSize":0,"pieceNum":0}
+2021-06-05 20:18:53.346 INFO sign:174-1622924333.340 : downloading piece:{"taskID":"e30cbaa7d78baf26a550ce5844f53870373d70ec5cc559885af7a3b1b2ab7865","superNode":"server.example.com:8002","dstCid":"","range":"","result":502,"status":700,"pieceSize":0,"pieceNum":0}
+2021-06-05 20:18:53.406 INFO sign:180-1622924333.401 : downloading piece:{"taskID":"a5444918bcc613a274bcd1b0be69b273408a92f83176e8bef7871002673f0bdd","superNode":"server.example.com:8002","dstCid":"","range":"","result":502,"status":700,"pieceSize":0,"pieceNum":0}
+2021-06-05 20:18:54.222 INFO sign:189-1622924334.209 : downloading piece:{"taskID":"d57c08ca46fcd9c223799a4fc7bc9dd3cdcfe3bd0060df95ba20260383c63226","superNode":"server.example.com:8002","dstCid":"","range":"","result":502,"status":700,"pieceSize":0,"pieceNum":0}
+2021-06-05 20:18:54.558 INFO sign:197-1622924334.551 : downloading piece:{"taskID":"7b5674b1d185de889fa24aff2511a81b0a6b4a5fd63b5b4be84d31658cf53587","superNode":"server.example.com:8002","dstCid":"","range":"","result":502,"status":700,"pieceSize":0,"pieceNum":0}
+2021-06-05 20:19:00.307 INFO sign:205-1622924340.297 : downloading piece:{"taskID":"1f0f6c994921ccd2c2adba82672c20c0d5158d39b4fe9e60e67e17cbecdedbc4","superNode":"server.example.com:8002","dstCid":"","range":"","result":502,"status":700,"pieceSize":0,"pieceNum":0}
+2021-06-05 20:19:00.498 INFO sign:212-1622924340.489 : downloading piece:{"taskID":"408bbb57f6a31bd04ce60cfea3fdea8acf0f06fa69cc2a23436925e1a2abc489","superNode":"server.example.com:8002","dstCid":"","range":"","result":502,"status":700,"pieceSize":0,"pieceNum":0}
 </pre>
 
 eso significa que la descarga de la imagen la realiza Dragonfly.
