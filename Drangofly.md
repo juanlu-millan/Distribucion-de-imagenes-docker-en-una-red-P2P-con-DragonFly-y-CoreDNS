@@ -33,67 +33,97 @@ Entonces, debemos asegurarnos de los siguientes requisitos:
 
 
 ## Instalación
+Paso 1: Implementar Dragonfly Server (Supernodo)
+Implemente el servidor Dragonfly (Supernode) en la máquina dfsupernode.
 
-Step 1: Deploy Dragonfly Server (SuperNode)
-Deploy the Dragonfly server (Supernode) on the machine dfsupernode.
-
+<pre>
 docker run -d --name supernode \
   --restart=always \
   -p 8001:8001 \
   -p 8002:8002 \
   -v /home/admin/supernode:/home/admin/supernode \
   dragonflyoss/supernode:1.0.2 --download-port=8001
-Step 2: Deploy Dragonfly Client (dfclient)
-The following operations should be performed both on the client machine dfclient0, dfclient1.
+</pre>
 
-Prepare the configuration file
-Dragonfly's configuration file is located in the /etc/dragonfly directory by default. When using the container to deploy the client, you need to mount the configuration file to the container.
+Paso 2: Implementar el cliente Dragonfly (dfclient)
+Las siguientes operaciones deben llevarse a cabo tanto en la máquina cliente dfclient0, dfclient1.
 
-Configure the Dragonfly Supernode address for the client:
+Prepare el archivo de configuración
+El archivo de configuración de Dragonfly se encuentra en el /etc/dragonflydirectorio por defecto. Cuando utilice el contenedor para implementar el cliente, debe montar el archivo de configuración en el contenedor.
 
+Configure la dirección de Dragonfly Supernode para el cliente:
+
+<pre>
 cat <<EOD > /etc/dragonfly/dfget.yml
 nodes:
-    - dfsupernode
+    - server.example.com
 EOD
-Start Dragonfly Client
+</pre>
+
+Iniciar el cliente Dragonfly
+
+<pre>
 docker run -d --name dfclient \
     --restart=always \
     -p 65001:65001 \
     -v /etc/dragonfly:/etc/dragonfly \
     -v $HOME/.small-dragonfly:/root/.small-dragonfly \
     dragonflyoss/dfclient:1.0.2 --registry https://index.docker.io
-NOTE: The --registry parameter specifies the mirrored image registry address, and https://index.docker.io is the address of official image registry, you can also set it to the others.
+</pre>
 
-Step 3. Configure Docker Daemon
-We need to modify the Docker Daemon configuration to use the Dragonfly as a pull through registry both on the client machine dfclient0, dfclient1.
 
-Add or update the configuration item registry-mirrors in the configuration file/etc/docker/daemon.json.
+NOTA : El --registryparámetro especifica la dirección de registro de la imagen reflejada, y https://index.docker.ioes la dirección del registro de imagen oficial, también puede configurarlo para los demás.
+
+Paso 3. Configurar el demonio de Docker
+Tenemos que modificar la configuración del Docker Daemon utilizar la libélula como un tirón a través del registro tanto en la máquina cliente dfclient0, dfclient1.
+
+Agregue o actualice el elemento de configuración registry-mirrorsen el archivo de configuración /etc/docker/daemon.json.
+
+<pre>
 {
   "registry-mirrors": ["http://127.0.0.1:65001"]
 }
-Tip: For more information on /etc/docker/daemon.json, see Docker documentation.
+</pre>
 
-Restart Docker Daemon.
+Sugerencia: Para obtener más información sobre /etc/docker/daemon.json, consulte la documentación de Docker .
+
+Reinicie Docker Daemon.
+
+<pre>
 systemctl restart docker
-Step 4: Pull images with Dragonfly
-Through the above steps, we can start to validate if Dragonfly works as expected.
+</pre>
 
-And you can pull the image as usual on either dfclient0 or dfclient1, for example:
+Paso 4: extraer imágenes con Dragonfly
 
+A través de los pasos anteriores, podemos comenzar a validar si Dragonfly funciona como se esperaba.
+Y puede extraer la imagen como de costumbre en dfclient0o dfclient1, por ejemplo:
+
+<pre>
 docker pull nginx:latest
+</pre>
 
 ## Verificación
 
-Step 5: Validate Dragonfly
-You can execute the following command to check if the nginx image is distributed via Dragonfly.
+Paso 5: validar Dragonfly
+Puede ejecutar el siguiente comando para verificar si la imagen nginx se distribuye a través de Dragonfly.
 
+<pre>
 docker exec dfclient grep 'downloading piece' /root/.small-dragonfly/logs/dfclient.log
-If the output of command above has content like
+</pre>
 
+Si la salida del comando anterior tiene contenido como
+
+
+<pre>
 2019-03-29 15:49:53.913 INFO sign:96027-1553845785.119 : downloading piece:{"taskID":"00a0503ea12457638ebbef5d0bfae51f9e8e0a0a349312c211f26f53beb93cdc","superNode":"127.0.0.1","dstCid":"127.0.0.1-95953-1553845720.488","range":"67108864-71303167","result":503,"status":701,"pieceSize":4194304,"pieceNum":16}
-that means that the image download is done by Dragonfly.
+</pre>
 
-If you need to ensure that if the image is transferred through other peer nodes, you can execute the following command:
+eso significa que la descarga de la imagen la realiza Dragonfly.
 
+Si necesita asegurarse de que si la imagen se transfiere a través de otros nodos pares, puede ejecutar el siguiente comando:
+
+<pre>
 docker exec dfclient grep 'downloading piece' /root/.small-dragonfly/logs/dfclient.log | grep -v cdnnode
-If the above command does not output the result, the mirror does not complete the transmission through other peer nodes. Otherwise, the transmission is completed through other peer nodes.
+</pre>
+
+Si el comando anterior no genera el resultado, el espejo no completa la transmisión a través de otros nodos pares. De lo contrario, la transmisión se completa a través de otros nodos pares.
