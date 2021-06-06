@@ -22,19 +22,26 @@ Dragonfly ha terminado de refactorizarse en Golang. Ahora las versiones> 0.4.0 e
 
 ## Prerequisitos
 
-Suponiendo que el experimento de inicio rápido requiere que preparemos tres máquinas host, una para desempeñar un papel de supernodo y las otras dos para dfclient. Entonces, la topología del clúster de tres nodos es como la siguiente:
+Suponiendo que el experimento de inicio rápido requiere que preparemos 4 máquinas host, una para desempeñar un papel de supernodo y las otras 3 para dfclient. 
+
+Veamos como seria la topología del clúster:
 
 ![Ejemplo](https://github.com/juanlu-millan/Distribucion-de-imagenes-docker-en-una-red-P2P-con-DragonFly-y-CoreDNS/blob/main/imagenes/ejemplo.png)
 
 Entonces, debemos asegurarnos de los siguientes requisitos:
 
-- 3 nodos de host en una LAN
-- Cada nodo ha implementado el demonio de la ventana acoplable
+- 4 nodos de host en una LAN
+- Cada nodo ha implementado dragonfly
 
+Server:  Dragonfly Server
+Host1: Cliente Dragonfly
+Host2: Cliente Dragonfly
+Host3: Cliente Dragonfly
 
 ## Instalación
-Paso 1: Implementar Dragonfly Server (Supernodo)
-Implemente el servidor Dragonfly (Supernode) en la máquina dfsupernode.
+
+Paso 1: Implementar Dragonfly Server (Supernodo o Server)
+Lanzamos en Docker dragonfly indicando que sera el supernodo, utilizaremos los puerto 8001 y 8002.
 
 <pre>
 docker run -d --name supernode \
@@ -75,9 +82,9 @@ docker run -d --name dfclient \
 NOTA : El --registryparámetro especifica la dirección de registro de la imagen reflejada, y https://index.docker.ioes la dirección del registro de imagen oficial, también puede configurarlo para los demás.
 
 Paso 3. Configurar el demonio de Docker
-Tenemos que modificar la configuración del Docker Daemon utilizar la libélula como un tirón a través del registro tanto en la máquina cliente dfclient0, dfclient1.
+Tenemos que modificar la configuración  del Docker Daemon para utilizar dragonfly en todos los host que tengamos.
 
-Agregue o actualice el elemento de configuración registry-mirrorsen el archivo de configuración /etc/docker/daemon.json.
+Agregue o actualice el elemento de configuración registry-mirrors en el archivo de configuración /etc/docker/daemon.json.
 
 <pre>
 {
@@ -87,7 +94,7 @@ Agregue o actualice el elemento de configuración registry-mirrorsen el archivo 
 
 Sugerencia: Para obtener más información sobre /etc/docker/daemon.json, consulte la documentación de Docker .
 
-Reinicie Docker Daemon.
+Reiniciamos Docker .
 
 <pre>
 systemctl restart docker
@@ -95,12 +102,13 @@ systemctl restart docker
 
 Paso 4: extraer imágenes con Dragonfly
 
-A través de los pasos anteriores, podemos comenzar a validar si Dragonfly funciona como se esperaba.
-Y puede extraer la imagen como de costumbre en dfclient0o dfclient1, por ejemplo:
+A través de los pasos anteriores, podemos comenzar a validar si Dragonfly funciona como se esperaba realizando la siguiente prueba:
 
 <pre>
 docker pull nginx:latest
 </pre>
+
+Una vez realizado en uno de los equipos realizaremos el mismo procedimiento en otro host para comprobar si funciona.
 
 ## Verificación
 
@@ -111,8 +119,7 @@ Puede ejecutar el siguiente comando para verificar si la imagen nginx se distrib
 docker exec dfclient grep 'downloading piece' /root/.small-dragonfly/logs/dfclient.log
 </pre>
 
-Si la salida del comando anterior tiene contenido como
-
+Si la salida del comando anterior tiene contenido como la siguiente significa que la descarga de la imagen la realiza Dragonfly.
 
 <pre>
 2021-06-05 20:18:51.288 INFO sign:140-1622924331.218 : downloading piece:{"taskID":"05f945e758a52439048ab935efd0dfa49ca6963eaf5adb41883074aa5b435385","superNode":"server.example.com:8002","dstCid":"","range":"","result":502,"status":700,"pieceSize":0,"pieceNum":0}
@@ -126,8 +133,6 @@ Si la salida del comando anterior tiene contenido como
 2021-06-05 20:19:00.307 INFO sign:205-1622924340.297 : downloading piece:{"taskID":"1f0f6c994921ccd2c2adba82672c20c0d5158d39b4fe9e60e67e17cbecdedbc4","superNode":"server.example.com:8002","dstCid":"","range":"","result":502,"status":700,"pieceSize":0,"pieceNum":0}
 2021-06-05 20:19:00.498 INFO sign:212-1622924340.489 : downloading piece:{"taskID":"408bbb57f6a31bd04ce60cfea3fdea8acf0f06fa69cc2a23436925e1a2abc489","superNode":"server.example.com:8002","dstCid":"","range":"","result":502,"status":700,"pieceSize":0,"pieceNum":0}
 </pre>
-
-eso significa que la descarga de la imagen la realiza Dragonfly.
 
 Si necesita asegurarse de que si la imagen se transfiere a través de otros nodos pares, puede ejecutar el siguiente comando:
 
