@@ -31,17 +31,20 @@ Veamos como seria la topología del clúster:
 Entonces, debemos asegurarnos de los siguientes requisitos:
 
 - 4 nodos de host en una LAN
-- Cada nodo ha implementado dragonfly
+- Cada nodo ha implementado dragonfly desta manera:
 
-Server:  Dragonfly Server
-Host1: Cliente Dragonfly
-Host2: Cliente Dragonfly
-Host3: Cliente Dragonfly
+**Server**:  Dragonfly Server
+
+**Host1**: Cliente Dragonfly
+
+**Host2**: Cliente Dragonfly
+
+**Host3**: Cliente Dragonfly
 
 ## Instalación
 
 Paso 1: Implementar Dragonfly Server (Supernodo o Server)
-Lanzamos en Docker dragonfly indicando que sera el supernodo, utilizaremos los puerto 8001 y 8002.
+Lanzamos en Docker a dragonfly indicando que sera el supernodo, utilizaremos los puerto 8001 y 8002.
 
 <pre>
 docker run -d --name supernode \
@@ -52,11 +55,11 @@ docker run -d --name supernode \
   dragonflyoss/supernode:1.0.2 --download-port=8001
 </pre>
 
-Paso 2: Implementar el cliente Dragonfly (dfclient)
+Paso 2: Implementar el cliente Dragonfly.
+
 Las siguientes operaciones deben llevarse a cabo tanto en la máquina cliente dfclient0, dfclient1.
 
-Prepare el archivo de configuración
-El archivo de configuración de Dragonfly se encuentra en el /etc/dragonflydirectorio por defecto. Cuando utilice el contenedor para implementar el cliente, debe montar el archivo de configuración en el contenedor.
+El archivo de configuración de Dragonfly se encuentra en el /etc/dragonfly que seria el directorio por defecto. Cuando utilice el contenedor para implementar el cliente, debe montar el archivo de configuración en el contenedor.
 
 Configure la dirección de Dragonfly Supernode para el cliente:
 
