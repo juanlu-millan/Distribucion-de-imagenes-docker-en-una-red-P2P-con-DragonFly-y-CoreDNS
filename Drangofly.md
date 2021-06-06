@@ -43,7 +43,7 @@ Entonces, debemos asegurarnos de los siguientes requisitos:
 
 ## Instalación
 
-Paso 1: Implementar Dragonfly Server (Supernodo o Server)
+#### Paso 1: Implementar Dragonfly Server (Supernodo o Server)
 Lanzamos en Docker a dragonfly indicando que sera el supernodo, utilizaremos los puerto 8001 y 8002.
 
 <pre>
@@ -55,7 +55,14 @@ docker run -d --name supernode \
   dragonflyoss/supernode:1.0.2 --download-port=8001
 </pre>
 
-Paso 2: Implementar el cliente Dragonfly.
+Comprobamos que ya esta en funcionamiento:
+
+<pre>
+CONTAINER ID   IMAGE                          COMMAND                  CREATED        STATUS             PORTS                                                           NAMES
+1a79dfb2fa27   dragonflyoss/supernode:1.0.2   "/root/start.sh --do…"   44 hours ago   Up About an hour   0.0.0.0:8001-8002->8001-8002/tcp, :::8001-8002->8001-8002/tcp   supernode
+</pre>
+
+#### Paso 2: Implementar el cliente Dragonfly.
 
 Las siguientes operaciones deben llevarse a cabo tanto en la máquina cliente dfclient0, dfclient1.
 
@@ -70,7 +77,9 @@ nodes:
 EOD
 </pre>
 
-Iniciar el cliente Dragonfly
+Al utilizar un servidor DNS(CoreDNS) podemos asigar el nombre de la maquina.
+
+Iniciar el cliente Dragonfly:
 
 <pre>
 docker run -d --name dfclient \
@@ -81,10 +90,15 @@ docker run -d --name dfclient \
     dragonflyoss/dfclient:1.0.2 --registry https://index.docker.io
 </pre>
 
+Comprobamos que ya esta en funcionamiento:
 
-NOTA : El --registryparámetro especifica la dirección de registro de la imagen reflejada, y https://index.docker.ioes la dirección del registro de imagen oficial, también puede configurarlo para los demás.
+<pre>
+CONTAINER ID   IMAGE                         COMMAND                  CREATED        STATUS             PORTS                                           NAMES
+9373f88d408e   dragonflyoss/dfclient:1.0.2   "/opt/dragonfly/df-c…"   45 hours ago   Up About an hour   0.0.0.0:65001->65001/tcp, :::65001->65001/tcp   dfclient
+</pre>
 
-Paso 3. Configurar el demonio de Docker
+#### Paso 3. Configurar el demonio de Docker
+
 Tenemos que modificar la configuración  del Docker Daemon para utilizar dragonfly en todos los host que tengamos.
 
 Agregue o actualice el elemento de configuración registry-mirrors en el archivo de configuración /etc/docker/daemon.json.
@@ -103,7 +117,7 @@ Reiniciamos Docker .
 systemctl restart docker
 </pre>
 
-Paso 4: extraer imágenes con Dragonfly
+#### Paso 4: extraer imágenes con Dragonfly
 
 A través de los pasos anteriores, podemos comenzar a validar si Dragonfly funciona como se esperaba realizando la siguiente prueba:
 
@@ -115,7 +129,7 @@ Una vez realizado en uno de los equipos realizaremos el mismo procedimiento en o
 
 ## Verificación
 
-Paso 5: validar Dragonfly
+#### Paso 5: validar Dragonfly
 Puede ejecutar el siguiente comando para verificar si la imagen nginx se distribuye a través de Dragonfly.
 
 <pre>
