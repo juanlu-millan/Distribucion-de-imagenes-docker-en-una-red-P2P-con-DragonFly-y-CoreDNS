@@ -111,6 +111,89 @@ SOAse refiere al tipo de registro; en este caso, un "inicio de autoridad"
 
 - **3600** se refiere al tiempo de vida en segundos, que es el valor predeterminado para todos los registros de la zona.
 
+### Pruebas de funcionamiento
+
+** server.example.com**
+
+<pre>
+vagrant@host1:~$ dig server.example.com
+
+; <<>> DiG 9.16.1-Ubuntu <<>> server.example.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 38821
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 6904e9e70440b521 (echoed)
+;; QUESTION SECTION:
+;server.example.com.		IN	A
+
+;; ANSWER SECTION:
+server.example.com.	0	IN	A	192.168.121.139
+
+;; Query time: 0 msec
+;; SERVER: 192.168.121.139#53(192.168.121.139)
+;; WHEN: Mon Jun 07 21:36:07 UTC 2021
+;; MSG SIZE  rcvd: 93
+</pre>
+
+**host1.example.com**
+
+<pre>
+vagrant@host1:~$ dig host1.example.com
+
+; <<>> DiG 9.16.1-Ubuntu <<>> host1.example.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 31117
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: b227d827554e247d (echoed)
+;; QUESTION SECTION:
+;host1.example.com.		IN	A
+
+;; ANSWER SECTION:
+host1.example.com.	0	IN	A	192.168.121.245
+
+;; Query time: 0 msec
+;; SERVER: 192.168.121.139#53(192.168.121.139)
+;; WHEN: Mon Jun 07 21:36:17 UTC 2021
+;; MSG SIZE  rcvd: 91
+</pre>
+
+**dns.example.com**
+
+<pre>
+vagrant@host1:~$ dig dns.example.com
+
+; <<>> DiG 9.16.1-Ubuntu <<>> dns.example.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 3671
+;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: a5c5770d323859a0 (echoed)
+;; QUESTION SECTION:
+;dns.example.com.		IN	A
+
+;; ANSWER SECTION:
+dns.example.com.	0	IN	CNAME	server.example.com.
+server.example.com.	0	IN	A	192.168.121.139
+
+;; Query time: 3 msec
+;; SERVER: 192.168.121.139#53(192.168.121.139)
+;; WHEN: Mon Jun 07 21:36:25 UTC 2021
+;; MSG SIZE  rcvd: 137
+</pre>
 
 ### Problemas a tener en cuenta para su funcionamiento en Docker
 
