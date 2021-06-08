@@ -113,7 +113,7 @@ SOAse refiere al tipo de registro; en este caso, un "inicio de autoridad"
 
 ### Pruebas de funcionamiento
 
-** server.example.com**
+**server.example.com**
 
 <pre>
 vagrant@host1:~$ dig server.example.com
