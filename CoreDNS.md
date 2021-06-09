@@ -82,7 +82,7 @@ En segundo lugar, tenemos otra zona que está especificada para que example.comt
 ##### Example.db
 
 <pre>
-example.com.        IN  SOA dns.example.com. juanlu.example.com. 2021052512 7200 3600 1209600 >
+example.com.        IN  SOA dns.example.com. juanlu.example.com. (2021052512 7200 3600 1209600 3600)
 gateway.example.com.    IN  A   192.168.121.1
 dns.example.com.    IN  A   192.168.121.139
 host1.example.com.   IN  A   192.168.121.245
@@ -111,7 +111,19 @@ SOAse refiere al tipo de registro; en este caso, un "inicio de autoridad"
 
 - **3600** se refiere al tiempo de vida en segundos, que es el valor predeterminado para todos los registros de la zona.
 
-### Pruebas de funcionamiento
+##### Example.db
+
+<pre>
+$ORIGIN 121.168.192.in-addr.arpa.
+$TTL 86400
+@       IN      SOA     dns.example.com. juanlu@correo.com. (2021052513 7200 3600 1209600 3600)
+
+        IN      NS      dns.example.com.
+139     IN      PTR     server.example.com.
+100     IN      PTR     jmillan.example.com.
+</pre>
+
+#### Pruebas de funcionamiento
 
 **server.example.com**
 
@@ -194,6 +206,35 @@ server.example.com.	0	IN	A	192.168.121.139
 ;; WHEN: Mon Jun 07 21:36:25 UTC 2021
 ;; MSG SIZE  rcvd: 137
 </pre>
+
+<pre>
+vagrant@host1:~$ dig -x 192.168.121.139
+
+; <<>> DiG 9.16.1-Ubuntu <<>> -x 192.168.121.139
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 23923
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: e6d0f1c444ebc9a8 (echoed)
+;; QUESTION SECTION:
+;139.121.168.192.in-addr.arpa.	IN	PTR
+
+;; ANSWER SECTION:
+139.121.168.192.in-addr.arpa. 86400 IN	PTR	server.example.com.
+
+;; AUTHORITY SECTION:
+121.168.192.in-addr.arpa. 86400	IN	NS	dns.example.com.
+
+;; Query time: 0 msec
+;; SERVER: 192.168.121.139#53(192.168.121.139)
+;; WHEN: Tue Jun 08 22:40:42 UTC 2021
+;; MSG SIZE  rcvd: 182
+</pre>
+
 
 ### Problemas a tener en cuenta para su funcionamiento en Docker
 
