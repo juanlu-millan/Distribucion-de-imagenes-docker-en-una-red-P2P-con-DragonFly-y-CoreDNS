@@ -4,8 +4,8 @@
 
 - [Introducción](#introducción)
 - [Funcionamiento en Docker](#funcionamiento-en-docker)
-- [Ficheros de configuración](#ficheros-de-configuración)
-- [Problemas a tener en cuenta para su funcionamiento en Docker](#problemas-a-tener-en-cuenta-para-su-funcionamiento-en-Docker)
+- [Ficheros de configuración](#ficheros-de-configuración)  
+- [Problemas a tener en cuenta para su funcionamiento en Docker](#problemas-a-tener-en-cuenta-para-su-funcionamiento-en-docker)
 
 ## Introducción
 
@@ -25,10 +25,7 @@ para proporcionar descubrimiento de servicios, complementos que leen datos de un
 Actualmente hay alrededor de 30 complementos incluidos en la instalación predeterminada de CoreDNS, pero también hay un montón de complementos externos que 
 puede compilar en CoreDNS para ampliar su funcionalidad.
 
-CoreDNS fuçnciona con complementos.
-
-Escribir nuevos complementos debería ser bastante fácil, pero requiere conocer Go y tener una idea de cómo funciona el DNS. CoreDNS abstrae muchos detalles 
-de DNS, por lo que puede concentrarse en escribir la funcionalidad del complemento que necesita.
+CoreDNS funciona con complementos, escribir nuevos complementos debería ser bastante fácil, pero requiere conocer Go y tener una idea de cómo funciona el DNS. CoreDNS abstrae muchos detalles de DNS, por lo que puede concentrarse en escribir la funcionalidad del complemento que necesita.
 
 ## Funcionamiento en Docker
 
@@ -79,7 +76,7 @@ Primero, observe la sección inicial entre corchetes. Comienza con a .:53, lo qu
 
 En segundo lugar, tenemos otra zona que está especificada para que example.comtambién escuche en el puerto UDP 53. Cualquier consulta para los hosts que pertenecen a esta zona se referirá a una base de datos de archivos (similar a cómo lo hace el enlace) para realizar una búsqueda allí; más sobre eso momentáneamente. Por ejemplo, una consulta a "server.example.com" omitirá la zona global de "." y caiga en la zona que está dando servicio a "example.com", y utilizando la filedirectiva se hará referencia al archivo de la base de datos para encontrar el registro adecuado.
 
-##### Example.db
+#### Example.db
 
 <pre>
 example.com.        IN  SOA dns.example.com. juanlu.example.com. (2021052512 7200 3600 1209600 3600)
@@ -111,7 +108,7 @@ SOAse refiere al tipo de registro; en este caso, un "inicio de autoridad"
 
 - **3600** se refiere al tiempo de vida en segundos, que es el valor predeterminado para todos los registros de la zona.
 
-##### Example.db
+#### 192.168.121.db 
 
 <pre>
 $ORIGIN 121.168.192.in-addr.arpa.
