@@ -68,6 +68,17 @@ example.com:53 {
     health :8080
     whoami
 }
+
+121.168.192.in-addr.arpa:53 {
+   file /root/192.168.121.db
+   log
+   erratic {
+       delay 3 50ms
+   }
+   health :8080
+   whoami
+}
+
 </pre>
 
 Repasemos las opciones del Corefileuno por uno. Es importante tener en cuenta que cada sección entre corchetes denota una "zona" de DNS, que establece el comportamiento de CoreDNS en función de lo que se está resolviendo.
