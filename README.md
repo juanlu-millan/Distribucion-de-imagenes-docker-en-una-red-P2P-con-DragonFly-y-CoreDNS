@@ -1,14 +1,13 @@
 # Distribución de imágenes docker en una red P2P con CoreDNS y DragonFly
 
+
+![Texto alternativo](./proyecto.png)
+
 ## Indice
 
 - [Introducción](#introducción)
 - [Herramientas](#herramientas)
 - [Bibliografía](#bibliografía)
-
-
-![Texto alternativo](./proyecto.png)
-
 
 ### Introducción 
 
@@ -16,6 +15,8 @@ Este proyecto se centra en el funcionamiento de dos herramientas en docker, esto
 
 
 ### Herramientas 
+
+Para ver como se instala y su funcionamiento mira en los siguientes enlances:
 
 - [Dragonfly](https://github.com/juanlu-millan/Distribucion-de-imagenes-docker-en-una-red-P2P-con-DragonFly-y-CoreDNS/blob/main/Drangofly.md)
 
@@ -26,4 +27,4 @@ Este proyecto se centra en el funcionamiento de dos herramientas en docker, esto
 
 - CoreDNS: https://coredns.io/
 - DragonFly: https://d7y.io/en-us/index.html
-
+- Canal de Slack de CoreDNS: https://app.slack.com/client/T08PSQ7BQ/C4DF7FP71/thread/C4DF7FP71-1580118368.070100
