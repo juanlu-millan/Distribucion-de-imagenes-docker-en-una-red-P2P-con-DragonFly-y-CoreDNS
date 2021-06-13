@@ -12,7 +12,7 @@
 
 ### Introducción 
 
-Este proyecto se centra en el funcionamiento de dos herramientas en docker, esto hace que su configuración y sus prestaciones funcionen en un espacio corto de tiempo. Las herramientas son Dragonfly que es una herramienta inteligente de distribución de archivos e imágenes basada en P2P y CoreDNS un servidor DNS escrito en GO que descata por ser muy flexible y su complementación con plugins.
+Este proyecto se centra en el funcionamiento de dos herramientas en docker, esto hace que su configuración y sus prestaciones funcionen en un espacio corto de tiempo. Las herramientas son Dragonfly que es una herramienta inteligente de distribución de archivos e imágenes docker basada en P2P y CoreDNS un servidor DNS escrito en GO que descata por ser muy flexible y su complementación con plugins.
 
 
 ### Herramientas 
