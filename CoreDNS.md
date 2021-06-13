@@ -4,7 +4,8 @@
 
 - [Introducción](#introducción)
 - [Funcionamiento en Docker](#funcionamiento-en-docker)
-- [Ficheros de configuración](#ficheros-de-configuración)  
+- [Ficheros de configuración](#ficheros-de-configuración)
+- [Pruebas de funcionamiento](#pruebas-de-funcionamiento)
 - [Problemas a tener en cuenta para su funcionamiento en Docker](#problemas-a-tener-en-cuenta-para-su-funcionamiento-en-docker)
 
 ## Introducción
@@ -131,89 +132,96 @@ $TTL 86400
 100     IN      PTR     jmillan.example.com.
 </pre>
 
-#### Pruebas de funcionamiento
-
-**server.example.com**
-
-<pre>
-vagrant@host1:~$ dig server.example.com
-
-; <<>> DiG 9.16.1-Ubuntu <<>> server.example.com
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 38821
-;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
-;; WARNING: recursion requested but not available
-
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-; COOKIE: 6904e9e70440b521 (echoed)
-;; QUESTION SECTION:
-;server.example.com.		IN	A
-
-;; ANSWER SECTION:
-server.example.com.	0	IN	A	192.168.121.139
-
-;; Query time: 0 msec
-;; SERVER: 192.168.121.139#53(192.168.121.139)
-;; WHEN: Mon Jun 07 21:36:07 UTC 2021
-;; MSG SIZE  rcvd: 93
-</pre>
-
-**host1.example.com**
-
-<pre>
-vagrant@host1:~$ dig host1.example.com
-
-; <<>> DiG 9.16.1-Ubuntu <<>> host1.example.com
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 31117
-;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
-;; WARNING: recursion requested but not available
-
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-; COOKIE: b227d827554e247d (echoed)
-;; QUESTION SECTION:
-;host1.example.com.		IN	A
-
-;; ANSWER SECTION:
-host1.example.com.	0	IN	A	192.168.121.245
-
-;; Query time: 0 msec
-;; SERVER: 192.168.121.139#53(192.168.121.139)
-;; WHEN: Mon Jun 07 21:36:17 UTC 2021
-;; MSG SIZE  rcvd: 91
-</pre>
+### Pruebas de funcionamiento
 
 **dns.example.com**
 
 <pre>
-vagrant@host1:~$ dig dns.example.com
+root@host1:/home/vagrant# dig dns.example.com
 
-; <<>> DiG 9.16.1-Ubuntu <<>> dns.example.com
+; <<>> DiG 9.11.5-P4-5.1+deb10u5-Debian <<>> dns.example.com
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 3671
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 17187
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 12fc3feb23557ec2 (echoed)
+;; QUESTION SECTION:
+;dns.example.com.		IN	A
+
+;; ANSWER SECTION:
+dns.example.com.	0	IN	A	192.168.100.5
+
+;; Query time: 1 msec
+;; SERVER: 192.168.100.5#53(192.168.100.5)
+;; WHEN: Sun Jun 13 15:17:25 GMT 2021
+;; MSG SIZE  rcvd: 87
+
+root@host1:/home/vagrant# host3.example.com
+bash: host3.example.com: command not found
+root@host1:/home/vagrant# 
+
+
+
+**host3.example.com**
+
+<pre>
+root@host1:/home/vagrant# dig host3.example.com
+
+; <<>> DiG 9.11.5-P4-5.1+deb10u5-Debian <<>> host3.example.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 34032
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: af6f851d1ce8ea33 (echoed)
+;; QUESTION SECTION:
+;host3.example.com.		IN	A
+
+;; ANSWER SECTION:
+host3.example.com.	0	IN	A	192.168.100.30
+
+;; Query time: 1 msec
+;; SERVER: 192.168.100.5#53(192.168.100.5)
+;; WHEN: Sun Jun 13 15:17:49 GMT 2021
+;; MSG SIZE  rcvd: 91
+</pre>
+
+**server.example.com(CNAME)**
+
+<pre>
+root@host1:/home/vagrant# dig server.example.com
+
+; <<>> DiG 9.11.5-P4-5.1+deb10u5-Debian <<>> server.example.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 6379
 ;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
 ;; WARNING: recursion requested but not available
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 4096
-; COOKIE: a5c5770d323859a0 (echoed)
+; COOKIE: c1265db08b68577b (echoed)
 ;; QUESTION SECTION:
-;dns.example.com.		IN	A
+;server.example.com.		IN	A
 
 ;; ANSWER SECTION:
-dns.example.com.	0	IN	CNAME	server.example.com.
-server.example.com.	0	IN	A	192.168.121.139
+server.example.com.	0	IN	CNAME	dns.example.com.
+dns.example.com.	0	IN	A	192.168.100.5
 
-;; Query time: 3 msec
-;; SERVER: 192.168.121.139#53(192.168.121.139)
-;; WHEN: Mon Jun 07 21:36:25 UTC 2021
+;; Query time: 1 msec
+;; SERVER: 192.168.100.5#53(192.168.100.5)
+;; WHEN: Sun Jun 13 15:20:20 GMT 2021
 ;; MSG SIZE  rcvd: 137
 </pre>
+
+**Zona Inversa**
 
 <pre>
 vagrant@host1:~$ dig -x 192.168.121.139
@@ -243,6 +251,19 @@ vagrant@host1:~$ dig -x 192.168.121.139
 ;; MSG SIZE  rcvd: 182
 </pre>
 
+### Plugins
+
+- Una caracteristica a tener muy en cuenta es la de utilizar plugins en CoreDNS ya que hace que sea un DNS muy completo y que muestra gran cantidad de infomación o ayuda con los errores más comunes a la hora de configirarlo. 
+
+- Algunos plugins insteresantes:
+
+* reload: Realiza durante el tiempo que se le indique una revision del fichero **Corefile** por si se ha modificado y lo lanza, en caso de error nos avisara del error y lanzara una versión anterior del fichero para el servicio DNS siga funcionando.
+* errors: Cualquier error encontrado durante el procesamiento de la consulta se imprimirá en la salida estándar.
+* erratic Un complemento útil para probar el comportamiento del cliente.
+* health: Habilitamos un proceso que comprueba la "salud" del cliente y respondiendo un 200 OK HTTP en caso positivo.
+
+
+- Para obtener una información más completa de los plugins lo encontraras aqui: https://coredns.io/plugins/
 
 ### Problemas a tener en cuenta para su funcionamiento en Docker
 
