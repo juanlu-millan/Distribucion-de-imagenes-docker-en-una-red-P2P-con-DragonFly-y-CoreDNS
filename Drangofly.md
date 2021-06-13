@@ -27,7 +27,7 @@ Suponiendo que el experimento de inicio rápido requiere que preparemos 4 máqui
 
 Veamos como seria la topología del clúster:
 
-![image](https://user-images.githubusercontent.com/43776895/121814797-38222800-cc73-11eb-9be9-c99d75efbf88.png)
+![image](https://user-images.githubusercontent.com/43776895/121817078-77ef0c80-cc7f-11eb-8b0c-53f667bafeb2.png)
 
 Entonces, debemos asegurarnos de los siguientes requisitos:
 
