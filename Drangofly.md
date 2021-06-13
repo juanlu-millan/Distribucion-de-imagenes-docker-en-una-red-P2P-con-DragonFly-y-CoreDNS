@@ -109,8 +109,6 @@ Agregue o actualice el elemento de configuración registry-mirrors en el archivo
 }
 </pre>
 
-Sugerencia: Para obtener más información sobre /etc/docker/daemon.json, consulte la documentación de Docker .
-
 Reiniciamos Docker .
 
 <pre>
@@ -157,4 +155,4 @@ Si necesita asegurarse de que si la imagen se transfiere a través de otros nodo
 docker exec dfclient grep 'downloading piece' /root/.small-dragonfly/logs/dfclient.log | grep -v cdnnode
 </pre>
 
-Si el comando anterior no genera el resultado, el espejo no completa la transmisión a través de otros nodos pares. De lo contrario, la transmisión se completa a través de otros nodos pares.
+Si el comando anterior no genera el resultado, el mirror no completa la transmisión a través de otros nodos pares. De lo contrario la transmisión se completa a través de otros nodos pares.
