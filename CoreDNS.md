@@ -45,7 +45,7 @@ docker run -d --name coredns --restart=always --volume=/home/vagrant/containers/
 
 ## Ficheros de configuración
 
-- Los principales ficheros de configuración son Corefile donde se definen las zonas de CoreDNS y Example.db:
+- Los principales ficheros de configuración son Corefile donde se definen las zonas de CoreDNS,Example.db y 192.168.121.db:
 
 ##### Corefile
 
@@ -82,7 +82,7 @@ example.com:53 {
 
 Repasemos las opciones del Corefile uno por uno. Es importante tener en cuenta que cada sección entre corchetes denota una "zona" de DNS, que establece el comportamiento de CoreDNS en función de lo que se está resolviendo.
 
-Primero, observe la sección inicial entre corchetes. Comienza con a .:53, lo que indica que esta zona es global (con "." Indica todo el tráfico), y está escuchando en el puerto 53 (udp por defecto). Los parámetros que establezcamos aquí se aplicarán a todas las consultas DNS entrantes que no especifiquen una zona específica, como una consulta para resolver github.com. Vemos en la siguiente línea, que reenviamos tales solicitudes a un servidor DNS secundario para su resolución; en este caso, todas las solicitudes a esta zona simplemente se reenviarán a los servidores DNS de Google en 8.8.8.8y 9.9.9.9.
+Primero, observe la sección inicial entre corchetes. Comienza con a .:53, lo que indica que esta zona es global (con "." Indica todo el tráfico), y está escuchando en el puerto 53 (udp por defecto). Los parámetros que establezcamos aquí se aplicarán a todas las consultas DNS entrantes que no especifiquen una zona específica, como una consulta para resolver github.com. Vemos en la siguiente línea, que reenviamos tales solicitudes a un servidor DNS secundario para su resolución; en este caso, todas las solicitudes a esta zona simplemente se reenviarán a los servidores DNS de Google en 8.8.8.8 y 9.9.9.9.
 
 En segundo lugar, tenemos otra zona que está especificada para que example.comtambién escuche en el puerto UDP 53. Cualquier consulta para los hosts que pertenecen a esta zona se referirá a una base de datos de archivos (similar a cómo lo hace el enlace) para realizar una búsqueda allí; más sobre eso momentáneamente. Por ejemplo, una consulta a "server.example.com" omitirá la zona global de "." y caiga en la zona que está dando servicio a "example.com", y utilizando la filedirectiva se hará referencia al archivo de la base de datos para encontrar el registro adecuado.
 
