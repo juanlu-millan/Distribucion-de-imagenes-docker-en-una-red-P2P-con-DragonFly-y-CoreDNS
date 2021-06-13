@@ -12,21 +12,22 @@ Dragonfly es un sistema inteligente de distribución de archivos e imágenes bas
 
 Las caracteristicas principales de Dragonfly :
 
-Simple : API orientada al usuario (HTTP) bien definida, no invasiva para todos los motores de contenedores;
-Eficiente : compatibilidad con CDN, distribución de archivos basada en P2P para ahorrar ancho de banda empresarial;
-Inteligente : límite de velocidad a nivel de host, control de flujo inteligente debido a la detección de host;
-Seguro : cifrado de transmisión en bloque, soporte de conexión HTTPS.
-Dragonfly ahora está alojado en Cloud Native Computing Foundation (CNCF) como un proyecto de nivel de incubación. Originalmente nació para resolver todo tipo de distribución a escalas muy grandes, como distribución de aplicaciones, distribución de caché, distribución de registros, distribución de imágenes, etc.
+* Simple : API orientada al usuario (HTTP) bien definida, no invasiva para todos los motores de contenedores.
+* Eficiente : Compatibilidad con CDN, distribución de archivos basada en P2P para ahorrar ancho de banda empresarial.
+* Inteligente : Límite de velocidad a nivel de host, control de flujo inteligente debido a la detección de host.
+* Seguro : Cifrado de transmisión en bloque, soporte de conexión HTTPS.
 
-Dragonfly ha terminado de refactorizarse en Golang. Ahora las versiones> 0.4.0 están totalmente en Golang, mientras que las <0.4.0 están en Java. Recomendamos a los usuarios que prueben la versión de Golang primero, ya que las versiones de Java dejarán de ser compatibles en las próximas versiones.
+- Dragonfly ahora está alojado en Cloud Native Computing Foundation (CNCF) como un proyecto de nivel de incubación. Originalmente nació para resolver todo tipo de distribución a escalas muy grandes, como distribución de aplicaciones, distribución de caché, distribución de registros, distribución de imágenes, etc.
+
+- Dragonfly ha terminado de refactorizarse en Golang. Ahora las versiones> 0.4.0 están totalmente en Golang, mientras que las <0.4.0 están en Java. Recomendamos a los usuarios que prueben la versión de Golang primero, ya que las versiones de Java dejarán de ser compatibles en las próximas versiones.
 
 ## Prerequisitos
 
-Suponiendo que el experimento de inicio rápido requiere que preparemos 4 máquinas host, una para desempeñar un papel de supernodo y las otras 3 para dfclient. 
+Suponiendo que el experimento de inicio rápido requiere que preparemos 4 máquinas host, una para desempeñar un papel de supernode y las otras 3 para dfclient. 
 
 Veamos como seria la topología del clúster:
 
-![Ejemplo](https://github.com/juanlu-millan/Distribucion-de-imagenes-docker-en-una-red-P2P-con-DragonFly-y-CoreDNS/blob/main/imagenes/ejemplo.png)
+![image](https://user-images.githubusercontent.com/43776895/121814797-38222800-cc73-11eb-9be9-c99d75efbf88.png)
 
 Entonces, debemos asegurarnos de los siguientes requisitos:
 
