@@ -241,31 +241,31 @@ dns.example.com.	0	IN	A	192.168.100.5
 **Zona Inversa**
 
 <pre>
-vagrant@host1:~$ dig -x 192.168.121.139
+root@host1:/home/vagrant# dig -x 192.168.100.5
 
-; <<>> DiG 9.16.1-Ubuntu <<>> -x 192.168.121.139
+; <<>> DiG 9.11.5-P4-5.1+deb10u5-Debian <<>> -x 192.168.100.5
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 23923
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 43544
 ;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 1
 ;; WARNING: recursion requested but not available
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 4096
-; COOKIE: e6d0f1c444ebc9a8 (echoed)
+; COOKIE: e4fc214cc1f584c1 (echoed)
 ;; QUESTION SECTION:
-;139.121.168.192.in-addr.arpa.	IN	PTR
+;5.100.168.192.in-addr.arpa.	IN	PTR
 
 ;; ANSWER SECTION:
-139.121.168.192.in-addr.arpa. 86400 IN	PTR	server.example.com.
+5.100.168.192.in-addr.arpa. 86400 IN	PTR	server.example.com.
 
 ;; AUTHORITY SECTION:
-121.168.192.in-addr.arpa. 86400	IN	NS	dns.example.com.
+100.168.192.in-addr.arpa. 86400	IN	NS	dns.example.com.
 
-;; Query time: 0 msec
-;; SERVER: 192.168.121.139#53(192.168.121.139)
-;; WHEN: Tue Jun 08 22:40:42 UTC 2021
-;; MSG SIZE  rcvd: 182
+;; Query time: 1 msec
+;; SERVER: 192.168.100.5#53(192.168.100.5)
+;; WHEN: Sun Jun 13 15:20:30 GMT 2021
+;; MSG SIZE  rcvd: 178
 </pre>
 
 ### Problemas a tener en cuenta para su funcionamiento en Docker
