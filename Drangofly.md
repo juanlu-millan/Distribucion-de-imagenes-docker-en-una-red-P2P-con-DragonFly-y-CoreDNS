@@ -65,7 +65,7 @@ CONTAINER ID   IMAGE                          COMMAND                  CREATED  
 
 #### Paso 2: Implementar el cliente Dragonfly.
 
-Las siguientes operaciones deben llevarse a cabo tanto en la máquina cliente dfclient0, dfclient1.
+Las siguientes operaciones deben llevarse a cabo tanto en la máquina cliente host1, host2 y host3.
 
 El archivo de configuración de Dragonfly se encuentra en el /etc/dragonfly que seria el directorio por defecto. Cuando utilice el contenedor para implementar el cliente, debe montar el archivo de configuración en el contenedor.
 
